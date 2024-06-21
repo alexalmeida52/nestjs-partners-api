@@ -1,15 +1,15 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { SpotsService } from './spots.service';
-import { CreateSpotDto } from './dto/create-spot.dto';
-import { UpdateSpotDto } from './dto/update-spot.dto';
+import { CreateSpotRequest } from './request/create-spot.request';
+import { UpdateSpotRequest } from './request/update-spot.request';
+import { SpotsService } from '@app/core/spots/spots.service';
 
 @Controller('/events/:eventId/spots')
 export class SpotsController {
   constructor(private readonly spotsService: SpotsService) {}
 
   @Post()
-  async create(@Param('eventId') eventId, @Body() createSpotDto: CreateSpotDto) {
-    return this.spotsService.create({eventId, ...createSpotDto});
+  async create(@Param('eventId') eventId, @Body() createSpotRequest: CreateSpotRequest) {
+    return this.spotsService.create({eventId, ...createSpotRequest});
   }
 
   @Get()
@@ -23,8 +23,8 @@ export class SpotsController {
   }
 
   @Patch(':spotId')
-  update(@Param('eventId') eventId: string, @Param('spotId') spotId: string, @Body() updateSpotDto: UpdateSpotDto) {
-    return this.spotsService.update(eventId, spotId, updateSpotDto);
+  update(@Param('eventId') eventId: string, @Param('spotId') spotId: string, @Body() updateSpotRequest: UpdateSpotRequest) {
+    return this.spotsService.update(eventId, spotId, updateSpotRequest);
   }
 
   @Delete(':spotId')
